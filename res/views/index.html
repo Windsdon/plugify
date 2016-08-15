@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html ng-app="plugify">
+
+<head>
+    <meta charset="utf-8">
+    <title>Plugify</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/javascripts/client.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-default navbar" role="navigation">
+        <div class="container">
+            <a class="navbar-brand" href="/">Plugify</a>
+        </div>
+    </nav>
+    <div class="container" id="content" ng-controller="Page">
+        <div class="row" ng-if="state.loading">
+            <div class="col-md-12">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-if="!state.room && state.ready">
+            <div class="col-md-12">
+                <div class="panel panel-default" ng-controller="Creator as creator">
+                    <div class="panel-body" style="text-align: center">
+                        <div class="btn-group btn-group-sm">
+                            <button type="button" class="btn btn-success" ng-click="creator.create()">Create Room</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-if="state.room && state.ready" ng-controller="Room as room">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="room.queueURI" placeholder="https://open.spotify.com/track/1X8ahBi1Y4j5hTFbFdw25s">
+                            <span class="input-group-btn">
+                                <a class="btn btn-default" type="button" ng-click="room.queuePush()">Queue</a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Now Playing</h3>
+                    </div>
+                    <div class="panel-body" style="text-align: center; min-height: 500px">
+                        <img alt="{{room.playing.album}}" ng-src="{{room.playing.art.medium}}">
+                        <h1>{{room.playing.name}}</h1>
+                        <h3>{{room.playing.album}} / {{room.playing.artist}}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Queue</h3>
+                    </div>
+                    <div class="panel-body" style="min-height: 500px">
+                        <div class="list-group">
+                            <a class="list-group-item" ng-repeat="item in room.queue">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <img class="media-object" alt="{{item.album}}" ng-src="{{item.art.small}}">
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="list-group-item-heading">{{item.name}}</h4>
+                                        <p class="list-group-item-text">{{item.album}} / {{item.artist}}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-group btn-group-justified">
+                    <div class="btn-group" role="group" ng-if="!state.spotify.noPlay">
+                        <a class="btn btn-default" ng-click="room.play()">Sync</a>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-default" ng-click="room.playNext()">Next Track</a>
+                    </div>
+                </div>
+                <br>
+            </div>
+        </div>
+        <div class="row">
+            <div ng-controller="Status">
+                <div class="alert alert-warning" role="alert" ng-if="state.spotify.status == 'connecting'">
+                    <strong>Connecting to Spotify</strong>
+                </div>
+                <div class="alert alert-danger" role="alert" ng-if="state.spotify.status == 'failed'">
+                    <strong>Failed to connect to Spotify!</strong> Make sure you are running the client.
+                    <p>
+                        You will not be able to sync, only vote.
+                    </p>
+                </div>
+                <div class="alert alert-danger" role="alert" ng-if="state.spotify.status == 'invaliduuid'">
+                    <strong>Failed to connect to server!</strong> UUID is not registered.
+                </div>
+                <div class="alert alert-danger" role="alert" ng-if="state.spotify.status == 'tokenerror'">
+                    <strong>Spotify not connected!</strong> Your client is running, but can't authenticate with the Spotify client.
+                </div>
+                <div class="alert alert-success" role="alert" ng-if="state.spotify.status == 'connected' && displayStatus">
+                    <strong>Connected to Spotify</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

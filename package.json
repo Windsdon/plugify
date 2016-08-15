@@ -1,0 +1,44 @@
+{
+  "name": "plugify",
+  "version": "0.1.0",
+  "description": "A plug.dj-like app using the Spotify client",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/windsdon/plugify.git"
+  },
+  "keywords": [
+    "spotify",
+    "music",
+    "share"
+  ],
+  "author": "Windsdon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/windsdon/plugify/issues"
+  },
+  "homepage": "https://github.com/windsdon/plugify#readme",
+  "dependencies": {
+    "async": "^2.0.1",
+    "body-parser": "^1.15.2",
+    "cookie": "^0.3.1",
+    "cookie-parser": "^1.4.3",
+    "debug": "^2.2.0",
+    "decache": "^4.1.0",
+    "express": "^4.14.0",
+    "morgan": "^1.7.0",
+    "node-uuid": "^1.4.7",
+    "nunjucks": "^2.4.2",
+    "oauth": "^0.9.14",
+    "open": "0.0.5",
+    "openurl": "^1.1.1",
+    "rand-token": "^0.2.1",
+    "request": "^2.74.0",
+    "serve-favicon": "^2.3.0",
+    "spotify-control": "^0.1.0",
+    "ws": "^1.1.1"
+  }
+}
